@@ -1,0 +1,22 @@
+html, body, h1, h2, h3, p, ol, ul, li, a {
+	padding: 0;
+	border: 0;
+	margin: 0;
+}
+html {
+	margin-left: 150px;
+	margin-right: 150px;
+}
+
+#add {
+	position: top right;
+	font-size: 20px;
+
+}
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+th, td {
+	padding: 15px;
+}
