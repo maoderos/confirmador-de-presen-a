@@ -24,16 +24,54 @@ function loadData() {
 			cell1 = newRow.insertCell(1),
 			cell2 = newRow.insertCell(2),
 			cell3 = newRow.insertCell(3),
-			text0 = document.createTextNode(cursor.value.nome),
-			text1 = document.createTextNode(cursor.value.idade),
-			text2 = document.createTextNode(cursor.value.categoria),
-			text3 = document.createTextNode(cursor.value.telefone);
+			cell4 = newRow.insertCell(4),
+			cell5 = newRow.insertCell(5),
+			text0 = document.createTextNode(cursor.key),
+			text1 = document.createTextNode(cursor.value.nome),
+			text2 = document.createTextNode(cursor.value.idade),
+			text3 = document.createTextNode(cursor.value.categoria),
+			text4 = document.createTextNode(cursor.value.telefone),
+			butnText = document.createTextNode("Delete"),
+			text5 = document.createElement("BUTTON");
+			text5.appendChild(butnText);
 			cell0.appendChild(text0);
 			cell1.appendChild(text1);
 			cell2.appendChild(text2);
 			cell3.appendChild(text3);
+			cell4.appendChild(text4);
+			cell5.appendChild(text5);
+			cell5.id = "deleteButton";
+			console.log('acho que terminou');
 			cursor.continue();
-			console.log("acho que terminou");
+
+		}
+		
+	}
+
+}
+
+
+function deleteRow() {
+	var confirmation = confirm("Voce tem certeza que deseja deletar esta linha?");
+	if (confirmation) {
+		var table = document.getElementById('body'),
+		//i = r.parentNode.parentNode.rowIndex,
+		row = table.rows[0],
+		cell = row.cells[0],
+		key = cell.firstChild.nodeValue;
+		var tx = db.transaction(["jogadores"], "readwrite");
+		var store = tx.objectStore("jogadores");
+		var request = store.get(Number(key));
+		request.onsuccess = function() {
+			console.log("succedeed");
+			store.delete(Number(key));
+			table.deleteRow(0);
 		}
 	}
 }
+
+
+
+
+
+
