@@ -41,6 +41,29 @@ function loadData() {
 			cell4.appendChild(text4);
 			cell5.appendChild(text5);
 			cell5.id = "deleteButton";
+			var t = newRow.rowIndex - 1;
+			console.log(t);
+			cell5.onclick = function deleteRow() {
+					var table = document.getElementById('body');
+					console.log(t);
+					var confirmation = confirm("Voce tem certeza que deseja deletar esta linha?");
+					if (confirmation) {
+						row = table.rows[t],
+						console.log(row);
+						cell = row.cells[0],
+						key = cell.firstChild.nodeValue;
+						var tx = db.transaction(["jogadores"], "readwrite");
+						var store = tx.objectStore("jogadores");
+						var request = store.get(Number(key));
+						request.onsuccess = function() {
+							console.log("succedeed");
+							store.delete(Number(key));
+							table.deleteRow(t);
+							location.reload();
+						}
+					}
+				}
+
 			console.log('acho que terminou');
 			cursor.continue();
 
@@ -51,24 +74,6 @@ function loadData() {
 }
 
 
-function deleteRow() {
-	var confirmation = confirm("Voce tem certeza que deseja deletar esta linha?");
-	if (confirmation) {
-		var table = document.getElementById('body'),
-		//i = r.parentNode.parentNode.rowIndex,
-		row = table.rows[0],
-		cell = row.cells[0],
-		key = cell.firstChild.nodeValue;
-		var tx = db.transaction(["jogadores"], "readwrite");
-		var store = tx.objectStore("jogadores");
-		var request = store.get(Number(key));
-		request.onsuccess = function() {
-			console.log("succedeed");
-			store.delete(Number(key));
-			table.deleteRow(0);
-		}
-	}
-}
 
 
 
