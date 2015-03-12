@@ -1,6 +1,9 @@
 var db;
-document.addEventListener("DOMContentLoaded", function() {
-	var openRequest = indexedDB.open("lista", 1);
+var loadButton = document.getElementById("loadButton");
+var count;
+function openData() {
+	count++
+	var openRequest = indexedDB.open("lista", count);
 
 	openRequest.onsuccess = function(e) {
 		console.log("success bitch");
@@ -10,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	openRequest.onerror = function(e) {
 		console.log("omg error");
 	}
-}, false);
+}
 
 function loadData() {
 	console.log("chegueii");
