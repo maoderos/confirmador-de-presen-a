@@ -1,9 +1,6 @@
 var db;
-var loadButton = document.getElementById("loadButton");
-var count;
 function openData() {
-	count++
-	var openRequest = indexedDB.open("lista", count);
+	var openRequest = indexedDB.open("datas");
 
 	openRequest.onsuccess = function(e) {
 		console.log("success bitch");
@@ -16,8 +13,11 @@ function openData() {
 }
 
 function loadData() {
+	var day = document.getElementById("dia").value;
+	var month = document.getElementById("mes").value;
+	console.log(day+month);
 	console.log("chegueii");
-	var objectStore = db.transaction("jogadores").objectStore("jogadores");
+	var objectStore = db.transaction(day + month).objectStore(day + month);
 	objectStore.openCursor().onsuccess = function(e) {
 		var cursor = e.target.result;
 		if(cursor) {
@@ -55,14 +55,13 @@ function loadData() {
 						console.log(row);
 						cell = row.cells[0],
 						key = cell.firstChild.nodeValue;
-						var tx = db.transaction(["jogadores"], "readwrite");
-						var store = tx.objectStore("jogadores");
+						var tx = db.transaction([day + month], "readwrite");
+						var store = tx.objectStore(day + month);
 						var request = store.get(Number(key));
 						request.onsuccess = function() {
 							console.log("succedeed");
 							store.delete(Number(key));
 							table.deleteRow(t);
-							location.reload();
 						}
 					}
 				}
@@ -72,6 +71,9 @@ function loadData() {
 
 		}
 		
+	}
+	objectStore.openCursor().onerror = function() {
+		alert("Esta lista nao existe");
 	}
 
 }
