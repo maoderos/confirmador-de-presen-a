@@ -74,5 +74,3 @@ function addPerson(e) {
 		console.log("Error", e.target.error.name);
 	}
 };
-
-
