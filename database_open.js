@@ -15,6 +15,13 @@ function openData() {
 function loadData() {
 	var day = document.getElementById("dia").value;
 	var month = document.getElementById("mes").value;
+	var table = document.getElementById('body');
+			var rowLength = table.rows.length;
+			if(rowLength + 1 > 0) {
+				for (rowLength; rowLength > 0; rowLength--) {
+					table.deleteRow(rowLength - 1);
+				}
+			}
 	console.log(day+month);
 	console.log("chegueii");
 	var objectStore = db.transaction(day + month).objectStore(day + month);
@@ -61,7 +68,11 @@ function loadData() {
 						request.onsuccess = function() {
 							console.log("succedeed");
 							store.delete(Number(key));
-							table.deleteRow(t);
+							var rowCount = table.rows.length;
+							for (rowCount; rowCount > 0; rowCount--) {
+								table.deleteRow(rowCount - 1);
+							}
+							loadData();
 						}
 					}
 				}

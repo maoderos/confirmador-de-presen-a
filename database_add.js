@@ -7,7 +7,7 @@ function openDatabase() {
 	console.log(day + month);
 
 	openRequest.onupgradeneeded = function(e) {
-		console.log("minha bola");
+		console.log("nothing is gonna happen");
 	}
 
 	openRequest.onsuccess = function(e) {
@@ -58,6 +58,7 @@ function addPerson(e) {
 
 		request.onsuccess = function(e) {
 			console.log("player added succesfuly");
+			location.reload();
 		}
 		request.onerror = function(e) {
 			console.log("Errorr", e.target.error.name);
