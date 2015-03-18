@@ -33,12 +33,17 @@ function addPerson(e) {
 	var openRequest = indexedDB.open("datas", latestVersion + 1);
 	var month = document.getElementById("mes").value;
 	var day = document.getElementById("dia").value;
+	var name = document.getElementsByName("name")[0].value;
+	var idade = document.getElementsByName("idade")[0].value;
+	var categoria = document.getElementsByName("categoria")[0].value;
+	var telefone = document.getElementsByName("telefone")[0].value;
 	openRequest.onsuccess = function (e) { 
 		db = e.target.result;
-		var name = document.getElementsByName("name")[0].value;
-		var idade = document.getElementsByName("idade")[0].value;
-		var categoria = document.getElementsByName("categoria")[0].value;
-		var telefone = document.getElementsByName("telefone")[0].value;
+		if(name == ""|| idade == "" || categoria == "" || telefone == "") {
+			alert("preecha todos os campos de texto!");
+			db.close();
+			return;
+		}
 
 		console.log(name + " " + idade + " " + categoria + " " + telefone);
 	
@@ -67,7 +72,7 @@ function addPerson(e) {
 	openRequest.onupgradeneeded = function(e) {
 		var thisDB = e.target.result;
 		 if(!thisDB.objectStoreNames.contains(day + month)) {
-			thisDB.createObjectStore(day + month, {autoIncrement:true});
+			thisDB.createObjectStore(day + month, {autoIncrement: true});
 			console.log("object created");
 		}
 	}

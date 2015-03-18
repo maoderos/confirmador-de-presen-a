@@ -16,12 +16,12 @@ function loadData() {
 	var day = document.getElementById("dia").value;
 	var month = document.getElementById("mes").value;
 	var table = document.getElementById('body');
-			var rowLength = table.rows.length;
-			if(rowLength + 1 > 0) {
-				for (rowLength; rowLength > 0; rowLength--) {
-					table.deleteRow(rowLength - 1);
-				}
-			}
+	var rowLength = table.rows.length;
+	if(rowLength + 1 > 0) {
+		for (rowLength; rowLength > 0; rowLength--) {
+			table.deleteRow(rowLength - 1);
+		}
+	}
 	console.log(day+month);
 	console.log("chegueii");
 	var objectStore = db.transaction(day + month).objectStore(day + month);
@@ -36,11 +36,13 @@ function loadData() {
 			cell3 = newRow.insertCell(3),
 			cell4 = newRow.insertCell(4),
 			cell5 = newRow.insertCell(5),
-			text0 = document.createTextNode(cursor.key),
+			cell6 = newRow.insertCell(6),
+			text0 = document.createTextNode(table.rows.length),
 			text1 = document.createTextNode(cursor.value.nome),
 			text2 = document.createTextNode(cursor.value.idade),
 			text3 = document.createTextNode(cursor.value.categoria),
 			text4 = document.createTextNode(cursor.value.telefone),
+			text6 = document.createTextNode(cursor.key),
 			butnText = document.createTextNode("Delete"),
 			text5 = document.createElement("BUTTON");
 			text5.appendChild(butnText);
@@ -50,7 +52,10 @@ function loadData() {
 			cell3.appendChild(text3);
 			cell4.appendChild(text4);
 			cell5.appendChild(text5);
+			cell6.appendChild(text6);
 			cell5.id = "deleteButton";
+			cell6.id = 'key';
+			cell6.style.display = 'none';
 			var t = newRow.rowIndex - 1;
 			console.log(t);
 			cell5.onclick = function deleteRow() {
@@ -60,8 +65,9 @@ function loadData() {
 					if (confirmation) {
 						row = table.rows[t],
 						console.log(row);
-						cell = row.cells[0],
-						key = cell.firstChild.nodeValue;
+						cell = row.cells[6],
+						key = cell.lastChild.nodeValue;
+						console.log(key);
 						var tx = db.transaction([day + month], "readwrite");
 						var store = tx.objectStore(day + month);
 						var request = store.get(Number(key));
